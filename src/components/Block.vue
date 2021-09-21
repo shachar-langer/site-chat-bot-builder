@@ -52,31 +52,81 @@
             </select>
         </div>
 
+        <div class="mb-2" v-if="actionType === 'input'">
+            <label for="next-block">Next block: </label>
+            <select v-model="nextBlockId" name="next-block" id="next-block" class="w-full">
+                <option value="">No next block</option>
+                <option v-for="(block, index) in allBlocks" :key="index" :value="block.id">{{block.name}}</option>
+            </select>
+        </div>
+
+        <div v-if="actionType === 'yes-no'">
+            <div class="mb-2">
+                <label for="next-block-yes">Next block for "yes": </label>
+                <select v-model="nextBlockYesId" name="next-block-yes" id="next-block-yes" class="w-full">
+                    <option value="">No next block</option>
+                    <option v-for="(block, index) in allBlocks" :key="index" :value="block.id">{{block.name}}</option>
+                </select>
+            </div>
+
+            <div class="mb-2">
+                <label for="next-block-no">Next block for "no": </label>
+                <select v-model="nextBlockNoId" name="next-block-no" id="next-block-no" class="w-full">
+                    <option value="">No next block</option>
+                    <option v-for="(block, index) in allBlocks" :key="index" :value="block.id">{{block.name}}</option>
+                </select>
+            </div>
+        </div>
+
         <input type="submit" class="py-2"/>
       </form>
   </div>
 </template>
 
 <script setup>
+import { v4 as uuidv4 } from 'uuid';
 import { ref, watch } from 'vue'
 
 const emit = defineEmits(['add'])
+const props = defineProps({
+    allBlocks: {
+        type: Array,
+        required: true
+    }
+})
 
 const name = ref('')
-watch(name, (newName) => console.log(`Name ${newName}`))
-
 const blockType = ref('text')
-watch(blockType, (newBlockType) => console.log(`Block type ${newBlockType}`))
-
 const actionType = ref('')
-watch(actionType, (newActionType) => console.log(`Action type ${newActionType}`))
+const nextBlockId = ref('')
+const nextBlockYesId = ref('')
+const nextBlockNoId = ref('')
 
 const onSubmit = () => {
-    console.log('submitting')
-    emit('add', {name, blockType, actionType})
+    const id = uuidv4()
+    let action
+    switch (actionType.value) {
+        case 'input':
+            action = {
+                type: actionType.value,
+                attributes: { nextBlockId: nextBlockId.value }
+            }
+            break
+        case 'yes-no':
+            action = {
+                type: actionType.value,
+                attributes: {
+                    yes: { nextBlockId: nextBlockYesId.value },
+                    no: { nextBlockId: nextBlockNoId.value }
+                }
+            }
+            break
+    }
+    emit('add', {
+        id,
+        name: name.value,
+        blockType: blockType.value,
+        action
+    })
 }
 </script>
-
-<style>
-
-</style>

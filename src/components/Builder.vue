@@ -1,6 +1,6 @@
 <template>
-  <Block @add="onAdd"/>
-  <pre class="mt-6">{{block}}</pre>
+  <Block :all-blocks="blocks" @add="onAdd"/>
+  <pre class="mt-6">{{ blocks }}</pre>
 </template>
 
 <script setup>
@@ -9,7 +9,6 @@ import Block from '@/components/Block.vue'
 
 const blocks = ref([])
 
-// TODO - pass the blockNames to the block and add the option to attach blocks
 const blockNames = computed(() => blocks.value.map(b => b.name))
 
 const onAdd = (newBlock) => {
