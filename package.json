@@ -21,7 +21,7 @@
     "autoprefixer": "^10.3.5",
     "@types/tailwindcss": "^2.2.1",
     "tailwindcss": "^2.2.15",
-    "@vue/compiler-sfc": "^3.2.12",
+    "@vue/compiler-sfc": "^3.2.16",
     "@vitejs/plugin-vue": "^1.7.1",
     "vite": "^2.5.10"
   }
