@@ -23,6 +23,6 @@
     "tailwindcss": "^2.2.15",
     "@vue/compiler-sfc": "^3.2.18",
     "@vitejs/plugin-vue": "^1.9.2",
-    "vite": "^2.5.10"
+    "vite": "^2.7.13"
   }
 }
